@@ -12,7 +12,6 @@ import { reduceHearts } from "@/actions/user-progress";
 import { useAudio, useWindowSize, useMount } from "react-use";
 import Image from "next/image";
 import { ResultCard } from "./result-card";
-import { useRouter } from "next/navigation";
 import Confetti from "react-confetti"; 
 import { useHeartsModal } from "@/store/use-hearts-modal";
 import { usePracticeModal } from "@/store/use-practice-modal";
@@ -45,16 +44,15 @@ export const Quiz = ({
     }
   });
   const { width, height } = useWindowSize();
-  const router = useRouter();
   const [finishAudio] = useAudio({ src: "/finish.mp3", autoPlay: true });
   const [
     correctAudio,
-    _c,
+    ,// _c,
     correctControls,
   ] = useAudio({ src: "/correct.wav" });
   const [
     incorrectAudio,
-    _i,
+    ,// _i,
     incorrectControls,
   ] = useAudio({ src: "/incorrect.wav" });
   const [pending, startTransition] = useTransition();

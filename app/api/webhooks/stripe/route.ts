@@ -17,11 +17,15 @@ export async function POST(req: Request) {
       signature,
       process.env.STRIPE_WEBHOOK_SECRET!
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
+  if (error instanceof Error) {
     return new NextResponse(`Webhook error: ${error.message}`, {
       status: 400,
     });
   }
+
+  return new NextResponse("Unknown error occurred", { status: 400 });
+}
 
   // Handle the event
   console.log("Event received:", event);

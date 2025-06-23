@@ -1,7 +1,6 @@
 import { FeedWrapper } from '@/components/feed-wrapper';
 import { StickyWrapper } from '@/components/sticky-wrapper';
 import { getUserProgress, getUserSubscribtion } from '@/db/queries';
-import { userProgress, userSubscribtion } from '@/db/schema';
 import Image from 'next/image';
 import { redirect } from 'next/navigation';
 import React from 'react'

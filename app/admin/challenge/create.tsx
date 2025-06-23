@@ -1,4 +1,4 @@
-import { SimpleForm, Create, TextInput, TextField, required, ReferenceInput, NumberInput, SelectInput } from "react-admin";
+import { SimpleForm, Create, TextInput, required, ReferenceInput, NumberInput, SelectInput } from "react-admin";
 
 export const ChallengeCreate = () => {
   return (
