@@ -6,39 +6,55 @@ import { NextResponse } from "next/server";
 
 export const GET = async (
   req: Request,
-  { params }: { params: { challengeOptionId: number } },
+  { params }: { params: { challengeOptionId: string } }, // ✅ string expected by Next.js
 ) => {
-  if(!isAdmin()) {
+  if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
+
+  const challengeOptionId = parseInt(params.challengeOptionId, 10); // ✅ Convert string to number
+
   const data = await db.query.challengeOptions.findFirst({
-    where: eq(challengeOptions.id, params.challengeOptionId),
+    where: eq(challengeOptions.id, challengeOptionId),
   });
+
   return NextResponse.json(data);
 };
 
 export const PUT = async (
   req: Request,
-  { params }: { params: { challengeOptionId: number } },
+  { params }: { params: { challengeOptionId: string } }, // ✅ string expected
 ) => {
-  if(!isAdmin()) {
+  if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
+
+  const challengeOptionId = parseInt(params.challengeOptionId, 10); // ✅ Convert string to number
   const body = await req.json();
-  const data = await db.update(challengeOptions).set({
-    ...body,
-  }).where(eq(challengeOptions.id, params.challengeOptionId)).returning();
+
+  const data = await db.update(challengeOptions)
+    .set({
+      ...body,
+    })
+    .where(eq(challengeOptions.id, challengeOptionId))
+    .returning();
+
   return NextResponse.json(data[0]);
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { challengeOptionId: number } },
+  { params }: { params: { challengeOptionId: string } }, // ✅ string expected
 ) => {
-  if(!isAdmin()) {
+  if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
+
+  const challengeOptionId = parseInt(params.challengeOptionId, 10); // ✅ Convert string to number
+
   const data = await db.delete(challengeOptions)
-  .where(eq(challengeOptions.id, params.challengeOptionId)).returning();
+    .where(eq(challengeOptions.id, challengeOptionId))
+    .returning();
+
   return NextResponse.json(data[0]);
 };
