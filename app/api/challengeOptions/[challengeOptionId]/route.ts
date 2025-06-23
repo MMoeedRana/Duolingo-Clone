@@ -2,17 +2,23 @@ import db from "@/db/drizzle";
 import { challengeOptions } from "@/db/schema";
 import { isAdmin } from "@/lib/admin";
 import { eq } from "drizzle-orm";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+type Context = {
+  params: {
+    challengeOptionId: string;
+  };
+};
 
 export const GET = async (
-  req: Request,
-  { params }: { params: { challengeOptionId: string } }, // ✅ string expected by Next.js
+  req: NextRequest,
+  { params }: Context
 ) => {
   if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
 
-  const challengeOptionId = parseInt(params.challengeOptionId, 10); // ✅ Convert string to number
+  const challengeOptionId = parseInt(params.challengeOptionId, 10);
 
   const data = await db.query.challengeOptions.findFirst({
     where: eq(challengeOptions.id, challengeOptionId),
@@ -22,14 +28,14 @@ export const GET = async (
 };
 
 export const PUT = async (
-  req: Request,
-  { params }: { params: { challengeOptionId: string } }, // ✅ string expected
+  req: NextRequest,
+  { params }: Context
 ) => {
   if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
 
-  const challengeOptionId = parseInt(params.challengeOptionId, 10); // ✅ Convert string to number
+  const challengeOptionId = parseInt(params.challengeOptionId, 10);
   const body = await req.json();
 
   const data = await db.update(challengeOptions)
@@ -43,14 +49,14 @@ export const PUT = async (
 };
 
 export const DELETE = async (
-  req: Request,
-  { params }: { params: { challengeOptionId: string } }, // ✅ string expected
+  req: NextRequest,
+  { params }: Context
 ) => {
   if (!isAdmin()) {
     return new NextResponse("Unauthorized", { status: 403 });
   }
 
-  const challengeOptionId = parseInt(params.challengeOptionId, 10); // ✅ Convert string to number
+  const challengeOptionId = parseInt(params.challengeOptionId, 10);
 
   const data = await db.delete(challengeOptions)
     .where(eq(challengeOptions.id, challengeOptionId))
